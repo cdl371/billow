@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<body>
+	<div class="content-wrapper" layout:fragment="content">
+		<section class="content-header">
+			<h1>
+				站点 <small><span th:text="${site.id}?'修改':'添加'"></span></small>
+			</h1>
+		</section>
+		<section class="content container-fluid">
+			<form id="form" th:action="@{save}" method="POST" role="form">
+				<input type="hidden" name="id" th:value="${site.id}" />
+				<input type="hidden" name="model_id" th:value="(${site.content} and ${site.content.model})?${site.content.model.id}:${model_id}" />
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab_1" data-toggle="tab">基本</a></li>
+						<li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab_1">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="required">名称</label>
+									<input type="text" class="form-control" name="name" th:value="${site.name}">
+								</div>
+								<div class="form-group">
+									<label>父站点</label>
+									<select name="parent_node_id" class="form-control">
+										<option></option>
+										<option th:each="s:${sites}" th:if="${s.id}!=${site.id}" th:value="${s.node.id}" th:text="${s.name}" th:selected="${site.node} and ${site.node.parent} and ${site.node.parent.id==s.node.id}"></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label class="required">PATH</label>
+									<input type="text" class="form-control" name="path" th:value="${site.path}">
+								</div>
+								<div class="form-group">
+									<label class="required">域名</label>
+									<input type="text" class="form-control" name="domain" th:value="${site.domain}">
+								</div>
+								<div class="form-group">
+									<label>域名别名</label>
+									<input type="text" class="form-control" name="alias" th:value="${site.alias}">
+								</div>
+								<div class="form-group">
+									<label>域名跳转</label>
+									<input type="text" class="form-control" name="redirect" th:value="${site.redirect}">
+								</div>
+								<div class="form-group">
+									<label>激活</label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="active" th:checked="${site.active}">
+											<span>是</span>
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label>主站</label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="chief" th:checked="${site.chief}">
+											<span>是</span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="box-footer">
+							</div>
+						</div>
+						<div class="tab-pane" id="tab_2">
+							<b>123</b>
+						</div>
+						<div class="tab-pane" id="tab_3">
+							<b>123</b>
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">提交</button>
+			</form>
+		</section>
+	</div>
+</body>
+</html>

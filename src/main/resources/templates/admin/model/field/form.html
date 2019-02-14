@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<body>
+	<div class="content-wrapper" layout:fragment="content">
+		<section class="content-header">
+			<h1>
+				字段 <small><span th:text="${field.id}?'修改':'添加'"></span> (分类: <span th:text="${field.fieldGroup.name}"></span>)</small>
+			</h1>
+		</section>
+		<section class="content container-fluid">
+			<div class="box box-primary">
+				<form th:action="@{save}" method="POST" role="form">
+					<input type="hidden" name="id" th:value="${field.id}"/>
+					<input type="hidden" name="fieldGroup.id" th:value="${field.fieldGroup.id}"/>
+					<div class="box-body">
+						<div class="form-group">
+							<label>名称</label>
+							<input type="text" class="form-control" name="name" th:value="${field.name}">
+						</div>
+						<div class="form-group">
+							<label>类型</label>
+							<select name="code" class="form-control">
+								<option th:each="fieldType:${fieldTypes}" th:value="${fieldType.value.code}" th:text="${fieldType.value.name}" th:selected="${field.code==fieldType.value.code}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">提交</button>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

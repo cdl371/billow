@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<body>
+	<div class="content-wrapper" layout:fragment="content">
+		<section class="content-header">
+			<h1>
+				模型 <small><span th:text="${model.id}?'修改':'添加'"></span> (分类: <span th:text="${categorys[model.code].name}"></span>)</small>
+			</h1>
+		</section>
+		<section class="content container-fluid">
+			<div class="box box-primary">
+				<form th:action="@{save}" method="POST" role="form">
+					<input type="hidden" name="id" th:value="${model.id}"/>
+					<input type="hidden" name="code" th:value="${model.code}"/>
+					<div class="box-body">
+						<div class="form-group">
+							<label>名称</label>
+							<input type="text" class="form-control" name="name" th:value="${model.name}">
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="chief" th:checked="${model.chief}">
+								<span>默认</span>
+							</label>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">提交</button>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
