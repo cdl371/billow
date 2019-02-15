@@ -5,12 +5,14 @@ import java.util.List;
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.content.Container;
 import org.cdl.demo.core.entity.content.aware.ContainerAware;
+import org.cdl.demo.core.repository.BaseDao;
+import org.cdl.demo.core.repository.content.ContainerDao;
 import org.cdl.demo.core.repository.content.aware.ContainerAwareDao;
 import org.cdl.demo.core.service.BaseService;
 import org.cdl.demo.core.service.content.ContainerService;
 import org.springframework.data.domain.Sort;
 
-public interface ContainerAwareService<T extends Base<Long> & ContainerAware> extends BaseService<T, Long> {
+public interface ContainerAwareService<T extends Base & ContainerAware, DAO extends BaseDao<T>> extends BaseService<T, DAO> {
 
 	ContainerAwareDao<T> getContainerAwareDao();
 

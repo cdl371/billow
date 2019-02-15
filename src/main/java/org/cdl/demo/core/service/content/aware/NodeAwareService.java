@@ -1,13 +1,16 @@
 package org.cdl.demo.core.service.content.aware;
 
+import java.util.List;
+
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.content.Node;
 import org.cdl.demo.core.entity.content.aware.NodeAware;
+import org.cdl.demo.core.repository.BaseDao;
 import org.cdl.demo.core.repository.content.aware.NodeAwareDao;
 import org.cdl.demo.core.service.BaseService;
 import org.cdl.demo.core.service.content.NodeService;
 
-public interface NodeAwareService<T extends Base<Long> & NodeAware> extends BaseService<T, Long> {
+public interface NodeAwareService<T extends Base & NodeAware, DAO extends BaseDao<T>> extends BaseService<T, DAO> {
 
 	NodeAwareDao<T> getNodeAwareDao();
 
@@ -26,8 +29,16 @@ public interface NodeAwareService<T extends Base<Long> & NodeAware> extends Base
 		getNodeService().attachParent(nodeAware.getNode(), parentNodeId);
 	}
 
-	default T findByNodeId(Long id) {
-		return getNodeAwareDao().findByNodeId(id);
+	default T findByNodeId(Long nodeId) {
+		return getNodeAwareDao().findByNodeId(nodeId);
+	}
+
+	default List<T> findByNodeParentId(Long parentNodeId) {
+		return getNodeAwareDao().findByNodeParentId(parentNodeId);
+	}
+
+	default List<T> findByNodeLeafTrueAndNodeParentIsNull() {
+		return getNodeAwareDao().findByNodeLeafTrueAndNodeParentIsNull();
 	}
 
 }

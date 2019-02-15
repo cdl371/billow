@@ -8,7 +8,7 @@ import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.content.Content;
 
 @Entity
-public abstract class FieldValue extends Base<Long> {
+public abstract class FieldValue extends Base {
 
 	private static final long serialVersionUID = 1L;
 

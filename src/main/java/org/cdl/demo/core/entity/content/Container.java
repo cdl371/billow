@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Container extends Base<Long> {
+public class Container extends Base {
 
 	private static final long serialVersionUID = 1L;
 

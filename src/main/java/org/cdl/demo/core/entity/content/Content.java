@@ -28,7 +28,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Content extends Base<Long> {
+public class Content extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -6,8 +6,10 @@ import org.cdl.demo.core.entity.content.aware.NodeAware;
 
 public interface NodeAwareDao<T extends NodeAware> {
 
-	List<T> findByNodeParentId(Long id);
+	T findByNodeId(Long nodeId);
 
-	T findByNodeId(Long id);
+	List<T> findByNodeParentId(Long parentNodeId);
+
+	List<T> findByNodeLeafTrueAndNodeParentIsNull();
 
 }

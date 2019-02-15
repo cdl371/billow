@@ -2,8 +2,6 @@ package org.cdl.demo.core.action;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.cdl.demo.core.entity.category.Category;
 import org.cdl.demo.core.entity.content.Site;
 import org.cdl.demo.core.entity.model.Model;
@@ -42,16 +40,16 @@ public class ModelAction {
 	}
 
 	@GetMapping("list")
-	public String list(HttpServletRequest request, ModelMap map, @RequestParam(required = false) Long site_id) {
+	public String list(ModelMap map, @RequestParam(required = false) Long site_id) {
 		Sort sort = new Sort(Direction.ASC, "code");
-		if (site_id != null) {
+		if (site_id == null) {
+			map.addAttribute("models", modelService.findAll(sort));
+		} else {
 			Site site = siteService.findById(site_id);
 			map.addAttribute("site", site);
 			map.addAttribute("allModels", modelService.findAll(sort));
 			map.addAttribute("models",
 					modelService.findByItemAssociationsContainerId(site.getContainer().getId(), sort));
-		} else {
-			map.addAttribute("models", modelService.findAll(sort));
 		}
 		return "admin/model/list";
 	}
@@ -85,7 +83,7 @@ public class ModelAction {
 			RedirectAttributes redirectAttrs) {
 		Site site = siteService.findById(site_id);
 		modelService.attachAssociation(modelService.findById(id), site);
-		redirectAttrs.addAttribute("site_id", site.getId());
+		redirectAttrs.addAttribute("site_id", site_id);
 		return "redirect:/model/list";
 	}
 
@@ -94,7 +92,7 @@ public class ModelAction {
 			RedirectAttributes redirectAttrs) {
 		Site site = siteService.findById(site_id);
 		modelService.detachAssociation(modelService.findById(id), site);
-		redirectAttrs.addAttribute("site_id", site.getId());
+		redirectAttrs.addAttribute("site_id", site_id);
 		return "redirect:/model/list";
 	}
 

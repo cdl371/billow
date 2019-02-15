@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Node extends Base<Long> {
+public class Node extends Base {
 
 	private static final long serialVersionUID = 1L;
 

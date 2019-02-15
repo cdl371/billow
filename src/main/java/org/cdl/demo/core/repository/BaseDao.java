@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface BaseDao<T extends Base<ID>, ID> extends JpaRepository<T, ID> {
+public interface BaseDao<T extends Base> extends JpaRepository<T, Long> {
 
 }

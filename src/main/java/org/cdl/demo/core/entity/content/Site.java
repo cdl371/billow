@@ -25,7 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
-public class Site extends Base<Long> implements ContentAware, ContainerAware, NodeAware {
+public class Site extends Base implements ContentAware, ContainerAware, NodeAware {
 
 	private static final long serialVersionUID = 1L;
 

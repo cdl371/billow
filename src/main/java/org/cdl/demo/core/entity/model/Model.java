@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-public class Model extends Base<Long> implements ItemAware {
+public class Model extends Base implements ItemAware {
 
 	private static final long serialVersionUID = 1L;
 

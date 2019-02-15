@@ -11,7 +11,7 @@ import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.model.field.Field;
 
 @Entity
-public class FieldGroup extends Base<Long> {
+public class FieldGroup extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/site")
@@ -26,10 +27,17 @@ public class SiteAction {
 	private ModelService modelService;
 
 	@GetMapping("list")
-	public String list(ModelMap map) {
+	public String list(ModelMap map, @RequestParam(required = false) Long parent_id) {
 		List<Model> models = modelService.findByCode(SiteCategory.CODE);
 		map.addAttribute("models", models);
-		map.addAttribute("sites", siteService.findAll());
+		if (parent_id == null) {
+			map.addAttribute("sites", siteService.findAll());
+		} else {
+			Site parent = siteService.findById(parent_id);
+			map.addAttribute("parent", parent);
+			map.addAttribute("idleSites", siteService.findByNodeLeafTrueAndNodeParentIsNull());
+			map.addAttribute("sites", siteService.findByNodeParentId(parent.getNode().getId()));
+		}
 		return "admin/site/list";
 	}
 
@@ -59,6 +67,24 @@ public class SiteAction {
 	public String delete(ModelMap map, @RequestParam Long id) {
 		siteService.delete(id);
 		return "redirect:/site/list";
+	}
+
+	@GetMapping("attach")
+	public String attach(ModelMap map, @RequestParam Long id, @RequestParam Long parent_id,
+			RedirectAttributes redirectAttrs) {
+		//此处应该用nodeAwareService实现
+//		siteService.attachAssociation(siteService.findById(id), siteService.findById(parent_id));
+		redirectAttrs.addAttribute("parent_id", parent_id);
+		return "redirect:/model/list";
+	}
+
+	@GetMapping("detach")
+	public String detach(ModelMap map, @RequestParam Long id, @RequestParam Long parent_id,
+			RedirectAttributes redirectAttrs) {
+//		siteService.detachAssociation(siteService.findById(id).getContainer().getId(),
+//				siteService.findById(parent_id).getContainer().getId());
+		redirectAttrs.addAttribute("parent_id", parent_id);
+		return "redirect:/model/list";
 	}
 
 }

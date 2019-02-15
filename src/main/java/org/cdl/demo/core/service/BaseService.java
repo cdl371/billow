@@ -7,9 +7,9 @@ import org.cdl.demo.core.repository.BaseDao;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface BaseService<T extends Base<ID>, ID> {
+public interface BaseService<T extends Base, DAO extends BaseDao<T>> {
 
-	BaseDao<T, ID> getDao();
+	DAO getDao();
 
 	default List<T> findAll() {
 		return getDao().findAll();
@@ -19,7 +19,7 @@ public interface BaseService<T extends Base<ID>, ID> {
 		return getDao().findAll(sort);
 	}
 
-	default T findById(ID id) {
+	default T findById(Long id) {
 		return getDao().findById(id).get();
 	}
 
@@ -29,7 +29,7 @@ public interface BaseService<T extends Base<ID>, ID> {
 	}
 
 	@Transactional
-	default void delete(ID id) {
+	default void delete(Long id) {
 		getDao().deleteById(id);
 	}
 

@@ -23,17 +23,23 @@ public class SiteServiceImpl implements SiteService {
 
 	@Autowired
 	@Getter
-	private NodeService nodeService;
+	private ContainerService containerService;
 
 	@Autowired
 	@Getter
-	private ContainerService containerService;
+	private AssociationService associationService;
+
 	@Autowired
 	@Getter
 	private ContainerAwareDao<Site> containerAwareDao;
+
 	@Autowired
 	@Getter
 	private NodeAwareDao<Site> nodeAwareDao;
+
+	@Autowired
+	@Getter
+	private NodeService nodeService;
 
 	@Override
 	public void save(Site site, Long model_id, Long parent_node_id) {

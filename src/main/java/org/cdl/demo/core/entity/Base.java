@@ -19,13 +19,13 @@ import lombok.Setter;
 @Setter
 @Data
 @MappedSuperclass
-public abstract class Base<ID> implements Persistable<ID>, Serializable {
+public abstract class Base implements Persistable<Long>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Nullable ID id;
+	private @Nullable Long id;
 
 	@Transient
 	public boolean isNew() {

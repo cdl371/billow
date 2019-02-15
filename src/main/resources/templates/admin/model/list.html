@@ -31,13 +31,15 @@
 					<table class="table table-striped table-hover">
 						<tbody>
 							<tr>
-								<th style="width: 24px">ID</th>
+								<th style="width: 24px">#</th>
+								<th>ID</th>
 								<th>名称</th>
 								<th>分类</th>
 								<th>默认</th>
 								<th style="text-align: center;width: 80px">操作</th>
 							</tr>
-							<tr th:each="model: ${models}">
+							<tr th:each="model, iterStat: ${models}">
+								<td th:text="${iterStat.index + 1}"></td>
 								<td th:text="${model.id}"></td>
 								<td th:text="${model.name}"></td>
 								<td th:text="${categorys[model.code].name}"></td>

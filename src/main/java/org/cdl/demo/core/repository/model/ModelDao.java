@@ -7,7 +7,7 @@ import org.cdl.demo.core.repository.BaseDao;
 import org.cdl.demo.core.repository.content.aware.ItemAwareDao;
 import org.springframework.data.domain.Sort;
 
-public interface ModelDao extends BaseDao<Model, Long>, ItemAwareDao<Model> {
+public interface ModelDao extends BaseDao<Model>, ItemAwareDao<Model> {
 
 	List<Model> findByCode(String code);
 
