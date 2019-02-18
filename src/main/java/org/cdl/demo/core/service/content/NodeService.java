@@ -8,12 +8,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface NodeService extends BaseService<Node, NodeDao> {
 
-	default void attachParent(Node node, Long parentNodeId) {
-		if (parentNodeId == null) {
-			node.setParent(null);
-		} else {
-			node.setParent(findById(parentNodeId));
-		}
-	}
-
 }

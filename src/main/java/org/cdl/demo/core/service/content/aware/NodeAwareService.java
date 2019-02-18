@@ -24,9 +24,25 @@ public interface NodeAwareService<T extends Base & NodeAware, DAO extends BaseDa
 		}
 	}
 
-	default void attachParent(T nodeAware, Long parentNodeId) {
-		attachNode(nodeAware);
-		getNodeService().attachParent(nodeAware.getNode(), parentNodeId);
+	static void checkParent(Node node, Node parent) {
+		if (parent != null) {
+			if (node.equals(parent)) {
+				throw new IllegalArgumentException("ancestor id must not include the node id");
+			} else {
+				checkParent(node, parent.getParent());
+			}
+		}
+	}
+
+	default void attachParent(T nodeAware, T parentNodeAware) {
+		checkParent(nodeAware.getNode(), parentNodeAware.getNode());
+		nodeAware.getNode().setParent(parentNodeAware.getNode());
+		getNodeService().save(nodeAware.getNode());
+	}
+
+	default void detachParent(T nodeAware) {
+		nodeAware.getNode().setParent(null);
+		getNodeService().save(nodeAware.getNode());
 	}
 
 	default T findByNodeId(Long nodeId) {
@@ -37,8 +53,20 @@ public interface NodeAwareService<T extends Base & NodeAware, DAO extends BaseDa
 		return getNodeAwareDao().findByNodeParentId(parentNodeId);
 	}
 
+	default List<T> findByNodeLeafTrue() {
+		return getNodeAwareDao().findByNodeLeafTrue();
+	}
+
+	default List<T> findByNodeParentIsNull() {
+		return getNodeAwareDao().findByNodeParentIsNull();
+	}
+
 	default List<T> findByNodeLeafTrueAndNodeParentIsNull() {
 		return getNodeAwareDao().findByNodeLeafTrueAndNodeParentIsNull();
+	}
+
+	default List<T> findByNodeLeafTrueAndNodeParentIsNullAndIdIsNot(Long id) {
+		return getNodeAwareDao().findByNodeLeafTrueAndNodeParentIsNullAndIdIsNot(id);
 	}
 
 }

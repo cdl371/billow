@@ -4,7 +4,7 @@
 	<div class="content-wrapper" layout:fragment="content">
 		<section class="content-header">
 			<h1>
-				模型 <small>列表</small>
+				模型 <small>列表<span th:if="${site}">(<span th:text="${site.name}"></span>)</span></small>
 			</h1>
 		</section>
 		<section class="content container-fluid">
@@ -12,10 +12,10 @@
 				<div class="box-header">
 					<div class="btn-group pull-right">
 						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-							添加 <span class="fa fa-caret-down"></span>
+							添加至本站 <span class="fa fa-caret-down"></span>
 						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li th:each="category: ${categorys}" th:if="!${site} or ${category.value.shared}"><a th:href="@{add(code=${category.value.code})}" th:text="${category.value.name} + '模型'"></a></li>
+						<ul class="dropdown-menu scrollable-menu" role="menu">
+							<li th:each="model: ${allModels}" th:if="!${#lists.contains(models, model)}"><a th:href="@{attach(id=${model.id},site_id=${site.id})}" th:text="${model.name}"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 								<th style="width: 24px">#</th>
 								<th>ID</th>
 								<th>名称</th>
-								<th>分类</th>
+								<th>CODE</th>
 								<th>默认</th>
 								<th style="text-align: center;width: 80px">操作</th>
 							</tr>
@@ -34,23 +34,12 @@
 								<td th:text="${iterStat.index + 1}"></td>
 								<td th:text="${model.id}"></td>
 								<td th:text="${model.name}"></td>
-								<td th:text="${categorys[model.code].name}"></td>
+								<td th:text="${model.code}"></td>
 								<td>
 									<i class="fa" th:classappend="${model.chief}?'fa-check text-green':'fa-circle-o text-gray'"></i>
 								</td>
 								<td>
-									<div class="btn-group">
-										<a th:href="@{edit(id=${model.id})}" class="btn btn-xs btn-default">编辑</a>
-										<button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-											 <span class="caret"></span>
-											 <span class="sr-only">下拉菜单</span>
-										</button>
-										<ul  class="dropdown-menu pull-right" role="menu">
-											<li><a th:href="@{/model/{model_id}/group/list(model_id=${model.id})}">管理字分组</a></li>
-											<li class="divider"></li>
-											<li><a th:href="@{delete(id=${model.id})}">删除</a></li>
-										</ul>
-									</div>
+									<a class="btn btn-xs btn-default" th:href="@{detach(id=${model.id},site_id=${site.id})}">从本站移除</a>
 								</td>
 							</tr>
 						</tbody>

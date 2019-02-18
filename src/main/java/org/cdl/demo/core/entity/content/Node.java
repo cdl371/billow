@@ -9,7 +9,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PreUpdate;
 
 import org.cdl.demo.core.entity.Base;
 
@@ -48,19 +47,19 @@ public class Node extends Base {
 		this.parent = parent;
 	}
 
-	@PreUpdate
-	private void preUpdate() {
-		checkParent(this, this.getId());
-	}
-
-	private static void checkParent(Node node, Long id) {
-		if (node.getParent() != null) {
-			if (node.getParent().getId() == id) {
-				throw new IllegalArgumentException("ancestor id must not include the node id");
-			} else {
-				checkParent(node.getParent(), id);
-			}
-		}
-	}
+//	@PreUpdate
+//	private void preUpdate() {
+//		checkParent(this, this.getId());
+//	}
+//
+//	private static void checkParent(Node node, Long id) {
+//		if (node.getParent() != null) {
+//			if (node.getParent().getId() == id) {
+//				throw new IllegalArgumentException("ancestor id must not include the node id");
+//			} else {
+//				checkParent(node.getParent(), id);
+//			}
+//		}
+//	}
 
 }

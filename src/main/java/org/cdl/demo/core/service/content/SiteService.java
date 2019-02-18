@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface SiteService extends ContainerAwareService<Site, SiteDao>, AssociationAwareService, NodeAwareService<Site, SiteDao>, BaseService<Site, SiteDao> {
 
 	@Transactional
-	void save(Site site, Long model_id, Long parent_node_id);
+	void save(Site site, Long model_id);
 
 	Site findByChiefTrue();
 

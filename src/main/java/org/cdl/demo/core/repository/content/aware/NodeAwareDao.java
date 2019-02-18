@@ -10,6 +10,12 @@ public interface NodeAwareDao<T extends NodeAware> {
 
 	List<T> findByNodeParentId(Long parentNodeId);
 
+	List<T> findByNodeLeafTrue();
+
+	List<T> findByNodeParentIsNull();
+
 	List<T> findByNodeLeafTrueAndNodeParentIsNull();
+
+	List<T> findByNodeLeafTrueAndNodeParentIsNullAndIdIsNot(Long id);
 
 }

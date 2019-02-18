@@ -42,7 +42,7 @@ public class SiteServiceImpl implements SiteService {
 	private NodeService nodeService;
 
 	@Override
-	public void save(Site site, Long model_id, Long parent_node_id) {
+	public void save(Site site, Long model_id) {
 		if (site.isChief()) {
 			Site chiefSite = dao.findByChiefTrue();
 			if (chiefSite != null && chiefSite.getId() != site.getId()) {
@@ -50,7 +50,7 @@ public class SiteServiceImpl implements SiteService {
 			}
 		}
 		attachContainer(site);
-		attachParent(site, parent_node_id);
+		attachNode(site);
 		if (site.getId() == null) {
 			site.setContent(new Content(modelService.findById(model_id)));
 		} else {
