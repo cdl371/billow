@@ -33,8 +33,4 @@ public interface ItemAwareService<T extends Base & ItemAware, DAO extends BaseDa
 		return getItemAwareDao().findByItemAssociationsContainerId(id, sort);
 	}
 
-//	default List<T> findByItemNotInContainer(Long containerId) {
-//		return getItemAwareDao().findByItemNotIn(getItemService().findByAssociationsContainerId(containerId));
-//	}
-
 }

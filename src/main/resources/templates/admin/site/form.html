@@ -10,7 +10,7 @@
 		<section class="content container-fluid">
 			<form id="form" th:action="@{save}" method="POST" role="form">
 				<input type="hidden" name="id" th:value="${site.id}" />
-				<input type="hidden" name="model_id" th:value="${site.new}?${model_id}:${site.content.model.id}" />
+				<input th:if="${model_id}" type="hidden" name="model_id" th:value="${model_id}" />
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#tab_1" data-toggle="tab">基本</a></li>

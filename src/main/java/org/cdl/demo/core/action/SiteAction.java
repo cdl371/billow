@@ -65,8 +65,8 @@ public class SiteAction {
 	}
 
 	@PostMapping(value = "save")
-	public String save(ModelMap map, Site site, @RequestParam Long model_id) {
-		siteService.save(site, model_id);
+	public String save(ModelMap map, Site site, @RequestParam(required = false) Long model_id) {
+		siteService.save(site, model_id == null ? null : modelService.findById(model_id));
 		return "redirect:/site/list";
 	}
 
