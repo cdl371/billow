@@ -1,39 +1,26 @@
 package org.cdl.demo.core.entity.model.field;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-import org.cdl.demo.core.entity.content.Content;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class FieldTypeConfiguration extends LinkedHashMap<String, FieldType<?>> {
+@Configuration
+public class FieldTypeConfiguration {
 
-	private static final long serialVersionUID = 1L;
-
-	public FieldTypeConfiguration(ObjectProvider<FieldType<?>> provider) {
-		List<FieldType<?>> fieldTypes = provider.orderedStream().collect(Collectors.toList());
-		if (fieldTypes != null) {
-			for (FieldType<?> fieldType : fieldTypes) {
-				this.put(fieldType.getCode(), fieldType);
+	@Bean
+	@Qualifier("fieldTypeMap")
+	public Map<String, FieldType<?>> fieldTypeMap(List<FieldType<?>> list) {
+		Map<String, FieldType<?>> map = new LinkedHashMap<String, FieldType<?>>();
+		if (list != null) {
+			for (FieldType<?> fieldType : list) {
+				map.put(fieldType.getType(), fieldType);
 			}
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public FieldValue createFieldValue(Content content, Field field) {
-		try {
-			FieldValue fieldValue = (FieldValue) ((Class<FieldValue>) ((ParameterizedType) this.get(field.getCode())
-					.getClass().getGenericSuperclass()).getActualTypeArguments()[0]).newInstance();
-			fieldValue.setContent(content);
-			fieldValue.setField(field);
-			return fieldValue;
-		} catch (InstantiationException | IllegalAccessException e) {
-		}
-		return null;
+		return map;
 	}
 
 }

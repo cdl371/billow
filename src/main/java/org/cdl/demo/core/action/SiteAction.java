@@ -3,10 +3,12 @@ package org.cdl.demo.core.action;
 import java.util.List;
 import java.util.Map;
 
-import org.cdl.demo.core.entity.category.Category;
+import javax.servlet.http.HttpServletRequest;
+
 import org.cdl.demo.core.entity.category.SiteCategory;
 import org.cdl.demo.core.entity.content.Site;
 import org.cdl.demo.core.entity.model.Model;
+import org.cdl.demo.core.entity.model.field.FieldType;
 import org.cdl.demo.core.service.content.SiteService;
 import org.cdl.demo.core.service.model.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,8 @@ public class SiteAction {
 	private ModelService modelService;
 
 	@Autowired
-	@Qualifier("categoryMap")
-	private Map<String, Category> categorys;
+	@Qualifier("fieldTypeMap")
+	private Map<String, FieldType<?>> fieldTypes;
 
 	@GetMapping("list")
 	public String list(ModelMap map, @RequestParam(required = false) Long parent_id) {
@@ -52,21 +54,22 @@ public class SiteAction {
 
 	@GetMapping(value = "add")
 	public String add(ModelMap map, @RequestParam Long model_id) {
-		Site site = new Site();
-		map.addAttribute("site", site);
-		map.addAttribute("model_id", model_id);
+		map.addAttribute("fieldTypes", fieldTypes);
+		map.addAttribute("site", new Site());
+		map.addAttribute("model", modelService.findById(model_id));
 		return "admin/site/form";
 	}
 
 	@GetMapping(value = "edit")
 	public String edit(ModelMap map, @RequestParam Long id) {
+		map.addAttribute("fieldTypes", fieldTypes);
 		map.addAttribute("site", siteService.findById(id));
 		return "admin/site/form";
 	}
 
 	@PostMapping(value = "save")
-	public String save(ModelMap map, Site site, @RequestParam(required = false) Long model_id) {
-		siteService.save(site, model_id == null ? null : modelService.findById(model_id));
+	public String save(HttpServletRequest request, ModelMap map, Site site, @RequestParam(required = false) Long model_id) {
+		siteService.save(site, model_id == null ? null : modelService.findById(model_id), request.getParameterMap(), fieldTypes);
 		return "redirect:/site/list";
 	}
 

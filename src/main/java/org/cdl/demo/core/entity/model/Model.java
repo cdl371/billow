@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.content.Content;
@@ -37,12 +38,13 @@ public class Model extends Base implements ItemAware {
 	private String code;
 
 	@Column(columnDefinition = "bit default 0")
-	private boolean chief = false;
+	private boolean primary = false;
 
 	@OneToMany(mappedBy = "model")
 	private List<Content> contents;
 
 	@OneToMany(mappedBy = "model")
+	@OrderBy("priority")
 	private List<FieldGroup> fieldGroups = new ArrayList<FieldGroup>();
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

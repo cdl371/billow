@@ -8,12 +8,12 @@ import org.cdl.demo.core.repository.content.aware.NodeAwareDao;
 
 public interface SiteDao extends BaseDao<Site>, ContainerAwareDao<Site>, NodeAwareDao<Site>, ContentAwareDao<Site> {
 	
-	boolean existsByChiefTrue();
+	boolean existsByPrimaryTrue();
 
-	boolean existsByChiefTrueAndIdNot(Long id);
+	boolean existsByPrimaryTrueAndIdNot(Long id);
 
-	Site findByChiefTrue();
+	Site findByPrimaryTrue();
 
-	Site findOneByDomain(String domain);
+	Site findOneByHost(String host);
 
 }

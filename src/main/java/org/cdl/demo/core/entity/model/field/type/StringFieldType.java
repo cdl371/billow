@@ -15,8 +15,13 @@ public class StringFieldType implements FieldType<StringFieldValue> {
 	}
 
 	@Override
-	public String getCode() {
+	public String getType() {
 		return "string";
+	}
+
+	@Override
+	public String getTemplate() {
+		return "/admin/content/field/string";
 	}
 
 }

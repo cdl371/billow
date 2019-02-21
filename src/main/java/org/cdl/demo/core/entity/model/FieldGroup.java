@@ -1,15 +1,25 @@
 package org.cdl.demo.core.entity.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.model.field.Field;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class FieldGroup extends Base {
 
@@ -17,34 +27,14 @@ public class FieldGroup extends Base {
 
 	private String name;
 
-	@OneToMany(mappedBy = "fieldGroup")
-	private List<Field> fields;
+	@Column(columnDefinition = "int default 0")
+	private Integer priority = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Model model;
 
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Field> getFields() {
-		return fields;
-	}
-
-	public void setFields(List<Field> fields) {
-		this.fields = fields;
-	}
+	@OneToMany(mappedBy = "fieldGroup")
+	@OrderBy("priority")
+	private List<Field> fields = new ArrayList<Field>();
 
 }

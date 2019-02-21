@@ -35,13 +35,13 @@ public class Site extends Base implements ContentAware, ContainerAware, NodeAwar
 	@Column(unique = true)
 	private String path;
 	@NonNull
-	private String domain;
+	private String host;
 	private String alias;
 	private String redirect;
 	@Column(columnDefinition = "bit default 1")
 	private boolean active = true;
 	@Column(columnDefinition = "bit default 0")
-	private boolean chief = false;
+	private boolean primary = false;
 
 	@NonNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

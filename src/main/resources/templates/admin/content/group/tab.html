@@ -1,0 +1,3 @@
+<li th:fragment="groups (model)"  th:each="fieldGroup:${model.fieldGroups}">
+	<a th:href="'#tab_group_' + ${fieldGroup.id}" data-toggle="tab" th:text="${fieldGroup.name}"></a>
+</li>

@@ -1,5 +1,7 @@
 package org.cdl.demo.core.entity.model.field;
 
+import java.lang.reflect.ParameterizedType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -7,35 +9,36 @@ import javax.persistence.ManyToOne;
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.content.Content;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
-public abstract class FieldValue extends Base {
+public abstract class FieldValue<T> extends Base {
 
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Content content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Field field;
+	private String code;
 
-	public Field getField() {
-		return field;
+	public abstract T getValue();
+
+	public abstract void setValue(T value);
+
+	public abstract void setStringValue(String value);
+
+	public void setStringValue(String[] value) {
+		if (value != null && value.length > 0) {
+			setStringValue(value[0]);
+		}
 	}
 
-	public void setField(Field field) {
-		this.field = field;
+	@SuppressWarnings("unchecked")
+	public Class<T> getValueType() {
+		return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-
-	public Content getContent() {
-		return content;
-	}
-
-	public void setContent(Content content) {
-		this.content = content;
-	}
-
-	public abstract Object getValue();
-
-	public abstract void setValue(String value);
 
 }

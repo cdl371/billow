@@ -1,7 +1,10 @@
 package org.cdl.demo.core.service.content;
 
+import java.util.Map;
+
 import org.cdl.demo.core.entity.content.Site;
 import org.cdl.demo.core.entity.model.Model;
+import org.cdl.demo.core.entity.model.field.FieldType;
 import org.cdl.demo.core.repository.content.SiteDao;
 import org.cdl.demo.core.service.BaseService;
 import org.cdl.demo.core.service.content.aware.AssociationAwareService;
@@ -14,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 public interface SiteService extends ContainerAwareService<Site, SiteDao>, AssociationAwareService, NodeAwareService<Site, SiteDao>, ContentAwareService<Site, SiteDao>, BaseService<Site, SiteDao> {
 
 	@Transactional
-	void save(Site site, Model model);
+	void save(Site site, Model model, Map<String, String[]> requestParameterMap, Map<String, FieldType<?>> fieldTypeMap);
 
-	Site findByChiefTrue();
+	Site findByPrimaryTrue();
 
-	Site findOneByDomain(String domain);
+	Site findOneByHost(String host);
 
 }

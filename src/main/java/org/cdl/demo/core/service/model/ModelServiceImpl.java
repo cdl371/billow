@@ -38,21 +38,21 @@ public class ModelServiceImpl implements ModelService {
 	}
 
 	@Override
-	public Model findByCodeAndChiefTrue(String code) {
-		return dao.findByCodeAndChiefTrue(code);
+	public Model findByCodeAndPrimaryTrue(String code) {
+		return dao.findByCodeAndPrimaryTrue(code);
 	}
 
 	@Override
 	public Model save(Model model) {
-		checkChief(model);
+		checkPrimary(model);
 		attachItem(model);
 		return dao.save(model);
 	}
 
-	private void checkChief(Model model) {
+	private void checkPrimary(Model model) {
 		Assert.isTrue(
-				!model.isChief() || !(model.isNew() ? dao.existsByCodeAndChiefTrue(model.getCode())
-						: dao.existsByCodeAndChiefTrueAndIdNot(model.getCode(), model.getId())),
+				!model.isPrimary() || !(model.isNew() ? dao.existsByCodeAndPrimaryTrue(model.getCode())
+						: dao.existsByCodeAndPrimaryTrueAndIdNot(model.getCode(), model.getId())),
 				"the chief model with same code must have only one");
 	}
 

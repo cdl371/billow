@@ -4,18 +4,22 @@
 	<div class="content-wrapper" layout:fragment="content">
 		<section class="content-header">
 			<h1>
-				字段组 <small><span th:text="${fieldGroup.id}?'修改':'添加'"></span> (分类: <span th:text="${fieldGroup.model.name}"></span>)</small>
+				字段组 <small><span th:text="${fieldGroup.new}?'添加':'修改'"></span> <span th:text="${model}?${model.name}:${fieldGroup.model.name}"></span></small>
 			</h1>
 		</section>
 		<section class="content container-fluid">
 			<div class="box box-primary">
 				<form th:action="@{save}" method="POST" role="form">
-					<input type="hidden" name="id" th:value="${fieldGroup.id}"/>
-					<input type="hidden" name="model.id" th:value="${fieldGroup.model.id}"/>
+					<input th:if="!${fieldGroup.new}" type="hidden" name="id" th:value="${fieldGroup.id}"/>
+					<input type="hidden" name="model_id" th:value="${model}?${model.id}:${fieldGroup.model.id}" />
 					<div class="box-body">
 						<div class="form-group">
 							<label>名称</label>
 							<input type="text" class="form-control" name="name" th:value="${fieldGroup.name}">
+						</div>
+						<div class="form-group">
+							<label>优先级</label>
+							<input type="text" class="form-control" name="priority" th:value="${fieldGroup.priority}">
 						</div>
 					</div>
 					<div class="box-footer">

@@ -36,7 +36,7 @@
 								<td th:text="${model.name}"></td>
 								<td th:text="${categorys[model.code].name}"></td>
 								<td>
-									<i class="fa" th:classappend="${model.chief}?'fa-check text-green':'fa-circle-o text-gray'"></i>
+									<i class="fa" th:classappend="${model.primary}?'fa-check text-green':'fa-circle-o text-gray'"></i>
 								</td>
 								<td>
 									<div class="btn-group">
@@ -46,7 +46,7 @@
 											 <span class="sr-only">下拉菜单</span>
 										</button>
 										<ul  class="dropdown-menu pull-right" role="menu">
-											<li><a th:href="@{/model/{model_id}/group/list(model_id=${model.id})}">管理字分组</a></li>
+											<li><a th:href="@{/model/group/list(model_id=${model.id})}">管理字分组</a></li>
 											<li class="divider"></li>
 											<li><a th:href="@{delete(id=${model.id})}">删除</a></li>
 										</ul>

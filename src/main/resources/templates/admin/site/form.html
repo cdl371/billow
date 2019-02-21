@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}">
 <body>
-	<div class="content-wrapper" layout:fragment="content">
+	<div class="content-wrapper" layout:fragment="content" th:with="model=${site.new}?${model}:${site.content.model}">
 		<section class="content-header">
 			<h1>
-				站点 <small><span th:text="${site.id}?'修改':'添加'"></span></small>
+				站点 <small><span th:text="${site.new}?'添加':'修改'"></span> <span th:text="${model.name}"></span></small>
 			</h1>
 		</section>
 		<section class="content container-fluid">
 			<form id="form" th:action="@{save}" method="POST" role="form">
-				<input type="hidden" name="id" th:value="${site.id}" />
-				<input th:if="${model_id}" type="hidden" name="model_id" th:value="${model_id}" />
+				<input th:if="!${site.new}" type="hidden" name="id" th:value="${site.id}" />
+				<input th:if="${site.new}" type="hidden" name="model_id" th:value="${model.id}" />
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#tab_1" data-toggle="tab">基本</a></li>
-						<li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
-						<li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+						<li class="active"><a href="#tab_base" data-toggle="tab">基本</a></li>
+						<li th:replace="/admin/content/group/tab :: groups (${model})"></li>
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane active" id="tab_1">
+						<div class="tab-pane active" id="tab_base">
 							<div class="box-body">
 								<div class="form-group">
 									<label class="required">名称</label>
@@ -30,7 +29,7 @@
 								</div>
 								<div class="form-group">
 									<label class="required">域名</label>
-									<input type="text" class="form-control" name="domain" th:value="${site.domain}">
+									<input type="text" class="form-control" name="host" th:value="${site.host}">
 								</div>
 								<div class="form-group">
 									<label>域名别名</label>
@@ -53,7 +52,7 @@
 									<label>主站</label>
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="chief" th:checked="${site.chief}">
+											<input type="checkbox" name="primary" th:checked="${site.primary}">
 											<span>是</span>
 										</label>
 									</div>
@@ -62,12 +61,7 @@
 							<div class="box-footer">
 							</div>
 						</div>
-						<div class="tab-pane" id="tab_2">
-							<b>123</b>
-						</div>
-						<div class="tab-pane" id="tab_3">
-							<b>123</b>
-						</div>
+						<div th:replace="/admin/content/group/pane :: groups (${model}, ${site.content}, ${fieldTypes})"></div>
 					</div>
 				</div>
 				<button type="submit" class="btn btn-primary">提交</button>

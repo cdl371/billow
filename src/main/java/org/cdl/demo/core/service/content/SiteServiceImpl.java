@@ -1,7 +1,10 @@
 package org.cdl.demo.core.service.content;
 
+import java.util.Map;
+
 import org.cdl.demo.core.entity.content.Site;
 import org.cdl.demo.core.entity.model.Model;
+import org.cdl.demo.core.entity.model.field.FieldType;
 import org.cdl.demo.core.repository.content.SiteDao;
 import org.cdl.demo.core.repository.content.aware.ContainerAwareDao;
 import org.cdl.demo.core.repository.content.aware.ContentAwareDao;
@@ -48,34 +51,28 @@ public class SiteServiceImpl implements SiteService {
 	private ContentAwareDao<Site> contentAwareDao;
 
 	@Override
-	public void save(Site site, Model model) {
-		checkChief(site);
+	public void save(Site site, Model model, Map<String, String[]> requestParameterMap, Map<String, FieldType<?>> fieldTypeMap) {
+		checkPrimary(site);
 		attachContainer(site);
 		attachNode(site);
-		attachContent(site, model);
-//		if (site.getId() == null) {
-//			site.setContent(new Content(modelService.findById(model_id)));
-//		} else {
-//			Site old = findById(site.getId());
-//			site.setContent(old.getContent());
-//		}
-		dao.save(site);
+		attachContent(site, model, requestParameterMap, fieldTypeMap);
+		save(site);
 	}
 
 	@Override
-	public Site findByChiefTrue() {
-		return dao.findByChiefTrue();
+	public Site findByPrimaryTrue() {
+		return dao.findByPrimaryTrue();
 	}
 
 	@Override
-	public Site findOneByDomain(String domain) {
-		return dao.findOneByDomain(domain);
+	public Site findOneByHost(String host) {
+		return dao.findOneByHost(host);
 	}
 
-	private void checkChief(Site site) {
+	private void checkPrimary(Site site) {
 		Assert.isTrue(
-				!site.isChief()
-						|| !(site.isNew() ? dao.existsByChiefTrue() : dao.existsByChiefTrueAndIdNot(site.getId())),
+				!site.isPrimary()
+						|| !(site.isNew() ? dao.existsByPrimaryTrue() : dao.existsByPrimaryTrueAndIdNot(site.getId())),
 				"the chief site with same code must have only one");
 	}
 

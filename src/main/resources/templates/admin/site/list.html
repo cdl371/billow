@@ -4,7 +4,7 @@
 	<div class="content-wrapper" layout:fragment="content">
 		<section class="content-header">
 			<h1>
-				站点 <small>列表<span th:if="${parent}">(<span th:text="${parent.name}"></span>)</span></small>
+				站点 <small>列表 <span th:if="${parent}" th:text="${parent.name}"></span></small>
 			</h1>
 		</section>
 		<section class="content container-fluid">
@@ -51,11 +51,11 @@
 								<td th:text="${site.name}"></td>
 								<td th:text="${site.content.model.name}"></td>
 								<td th:text="${site.path}"></td>
-								<td th:text="${site.domain}"></td>
+								<td th:text="${site.host}"></td>
 								<td th:text="${site.alias}"></td>
 								<td th:text="${site.redirect}"></td>
 								<td><i class="fa" th:classappend="${site.active}?'fa-check text-green':'fa-circle-o text-gray'"></i></td>
-								<td><i class="fa" th:classappend="${site.chief}?'fa-check text-green':'fa-circle-o text-gray'"></i></td>
+								<td><i class="fa" th:classappend="${site.primary}?'fa-check text-green':'fa-circle-o text-gray'"></i></td>
 								<td th:text="${site.node.parent}?${@siteService.findByNodeId(site.node.parent.id).id}:_"></td>
 								<td><i class="fa" th:classappend="${site.node.leaf}?'fa-check text-green':'fa-circle-o text-gray'"></i></td>
 								<td>

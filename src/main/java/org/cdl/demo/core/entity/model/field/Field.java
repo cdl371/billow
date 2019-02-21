@@ -1,5 +1,6 @@
 package org.cdl.demo.core.entity.model.field;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -7,6 +8,13 @@ import javax.persistence.ManyToOne;
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.model.FieldGroup;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Field extends Base {
 
@@ -16,31 +24,12 @@ public class Field extends Base {
 
 	private String code;
 
+	private String type;
+
+	@Column(columnDefinition = "int default 0")
+	private Integer priority = 0;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private FieldGroup fieldGroup;
-
-	public FieldGroup getFieldGroup() {
-		return fieldGroup;
-	}
-
-	public void setFieldGroup(FieldGroup fieldGroup) {
-		this.fieldGroup = fieldGroup;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

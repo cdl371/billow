@@ -1,13 +1,8 @@
 package org.cdl.demo;
 
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.cdl.demo.core.entity.content.Content;
-import org.cdl.demo.core.entity.model.field.Field;
-import org.cdl.demo.core.entity.model.field.FieldValue;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -76,12 +71,12 @@ public class SpringBootJpaDemoApplicationTests {
 //		System.out.println(value2);
 	}
 
-	@Test
-	public void Test2_showContent() {
-		Content content = em.find(Content.class, 1L);
-		for (Map.Entry<Field, FieldValue> entry : content.getFieldValues().entrySet()) {
-			System.out.println(entry.getValue().getValue());
-		}
-	}
+//	@Test
+//	public void Test2_showContent() {
+//		Content content = em.find(Content.class, 1L);
+//		for (Map.Entry<Field, FieldValue> entry : content.getFieldValues().entrySet()) {
+//			System.out.println(entry.getValue().getValue());
+//		}
+//	}
 
 }

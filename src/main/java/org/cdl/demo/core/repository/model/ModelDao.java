@@ -13,10 +13,10 @@ public interface ModelDao extends BaseDao<Model>, ItemAwareDao<Model> {
 
 	List<Model> findByCode(String code, Sort sort);
 
-	Model findByCodeAndChiefTrue(String code);
+	Model findByCodeAndPrimaryTrue(String code);
 
-	boolean existsByCodeAndChiefTrue(String code);
+	boolean existsByCodeAndPrimaryTrue(String code);
 	
-	boolean existsByCodeAndChiefTrueAndIdNot(String code, Long id);
+	boolean existsByCodeAndPrimaryTrueAndIdNot(String code, Long id);
 	
 }

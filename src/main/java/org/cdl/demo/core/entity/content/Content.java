@@ -1,5 +1,6 @@
 package org.cdl.demo.core.entity.content;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,6 @@ import javax.persistence.OneToMany;
 
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.model.Model;
-import org.cdl.demo.core.entity.model.field.Field;
 import org.cdl.demo.core.entity.model.field.FieldValue;
 
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class Content extends Base {
 	private Model model;
 
 	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
-	@MapKey(name = "field")
-	private Map<Field, FieldValue> fieldValues;
+	@MapKey(name = "code")
+	private Map<String, FieldValue<?>> fieldValues = new HashMap<String, FieldValue<?>>();
 
 }

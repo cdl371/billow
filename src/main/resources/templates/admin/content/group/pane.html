@@ -1,0 +1,7 @@
+<div th:fragment="groups (model, content, fieldTypes)" th:each="fieldGroup:${model.fieldGroups}" class="tab-pane" th:id="'tab_group_' + ${fieldGroup.id}">
+	<div class="box-body">
+		<div th:each="field:${fieldGroup.fields}">
+			<div th:replace="/admin/content/field"></div>
+		</div>
+	</div>
+</div>

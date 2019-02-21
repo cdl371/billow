@@ -15,8 +15,13 @@ public class IntegerFieldType implements FieldType<IntegerFieldValue> {
 	}
 
 	@Override
-	public String getCode() {
+	public String getType() {
 		return "integer";
+	}
+
+	@Override
+	public String getTemplate() {
+		return "/admin/content/field/integer";
 	}
 
 }

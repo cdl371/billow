@@ -1,26 +1,28 @@
 package org.cdl.demo.core.entity.model.field.value;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.cdl.demo.core.entity.model.field.FieldValue;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("B")
-public class BooleanFieldValue extends FieldValue {
+public class BooleanFieldValue extends FieldValue<Boolean> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Boolean booelanValue;
+	@Column(name = "boolean")
+	private Boolean value;
 
 	@Override
-	public Boolean getValue() {
-		return booelanValue;
-	}
-
-	@Override
-	public void setValue(String value) {
-		this.booelanValue = Boolean.valueOf(value);
+	public void setStringValue(String value) {
+		setValue(Boolean.valueOf(value));
 	}
 
 }

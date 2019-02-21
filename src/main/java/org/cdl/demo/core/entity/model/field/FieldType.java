@@ -1,9 +1,27 @@
 package org.cdl.demo.core.entity.model.field;
 
-public interface FieldType<T extends FieldValue> {
+import java.lang.reflect.ParameterizedType;
 
-	public String getName();
+public interface FieldType<T extends FieldValue<?>> {
 
-	public String getCode();
+	String getName();
+
+	String getType();
+
+	String getTemplate();
+
+	@SuppressWarnings("unchecked")
+	default Class<T> getFieldValueType() {
+		return (Class<T>) ((ParameterizedType) getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
+	}
+
+	default T createFieldValue() {
+		T fieldValue = null;
+		try {
+			fieldValue = getFieldValueType().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+		}
+		return fieldValue;
+	}
 
 }

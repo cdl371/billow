@@ -15,8 +15,13 @@ public class BooleanFieldType implements FieldType<BooleanFieldValue> {
 	}
 
 	@Override
-	public String getCode() {
+	public String getType() {
 		return "boolean";
+	}
+
+	@Override
+	public String getTemplate() {
+		return "/admin/content/field/boolean";
 	}
 
 }

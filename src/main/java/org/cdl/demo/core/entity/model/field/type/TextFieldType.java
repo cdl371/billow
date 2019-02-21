@@ -15,8 +15,13 @@ public class TextFieldType implements FieldType<TextFieldValue> {
 	}
 
 	@Override
-	public String getCode() {
+	public String getType() {
 		return "text";
+	}
+
+	@Override
+	public String getTemplate() {
+		return "/admin/content/field/text";
 	}
 
 }

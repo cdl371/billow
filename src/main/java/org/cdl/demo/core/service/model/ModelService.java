@@ -14,7 +14,7 @@ public interface ModelService extends ItemAwareService<Model, ModelDao>, Associa
 
 	List<Model> findByCode(String code);
 
-	Model findByCodeAndChiefTrue(String code);
+	Model findByCodeAndPrimaryTrue(String code);
 
 	@Transactional
 	Model save(Model model);
