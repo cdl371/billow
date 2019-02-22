@@ -9,7 +9,7 @@
 		</section>
 		<section class="content container-fluid">
 			<div class="box box-primary">
-				<form th:action="@{save}" method="POST" role="form">
+				<form th:action="@{option}" method="POST" role="form">
 					<input type="hidden" name="id" th:value="${field.id}"/>
 					<input type="hidden" name="group_id" th:value="${fieldGroup}?${fieldGroup.id}:${field.fieldGroup.id}" />
 					<div class="box-body">
@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">提交</button>
+						<button type="submit" class="btn btn-primary">继续</button>
 					</div>
 				</form>
 			</div>

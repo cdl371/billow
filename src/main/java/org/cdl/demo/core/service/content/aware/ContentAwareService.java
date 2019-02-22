@@ -38,7 +38,7 @@ public interface ContentAwareService<T extends Base & ContentAware, DAO extends 
 			for (Field field : fieldGroup.getFields()) {
 				String code = field.getCode();
 				String[] value = requestParameterMap.get(FIELD_PREFIX + code);
-				if (value != null && value.length > 0) {
+				if (value != null) {
 					FieldType<?> fieldType = fieldTypeMap.get(field.getType());
 					FieldValue<?> fieldValue = fieldType.createFieldValue();
 					fieldValue.setContent(content);

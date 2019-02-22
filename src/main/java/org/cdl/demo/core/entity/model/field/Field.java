@@ -26,6 +26,8 @@ public class Field extends Base {
 
 	private String type;
 
+	private String option;
+
 	@Column(columnDefinition = "int default 0")
 	private Integer priority = 0;
 

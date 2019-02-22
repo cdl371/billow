@@ -1,6 +1,12 @@
 package org.cdl.demo.core.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.cdl.demo.core.entity.model.FieldGroup;
 import org.cdl.demo.core.entity.model.field.Field;
@@ -11,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,13 +66,54 @@ public class FieldAction {
 		return "admin/model/field/form";
 	}
 
-	@PostMapping("save")
-	public String save(ModelMap map, Field field, @RequestParam Long group_id, RedirectAttributes redirectAttrs) {
+	@PostMapping("option")
+	public String option(ModelMap map, Field field, @RequestParam Long group_id) {
 		FieldGroup fieldGroup = fieldGroupService.findById(group_id);
 		field.setFieldGroup(fieldGroup);
+		Map<String, Object> optionMap = new HashMap<String, Object>();
+		if (!field.isNew()) {
+			String optionString = fieldService.findById(field.getId()).getOption();
+			if (StringUtils.hasText(optionString)) {
+				optionMap = fieldTypes.get(field.getType()).parseOptionMap(optionString);
+			}
+		}
+		map.addAttribute("option", optionMap);
+		return "admin/model/field/option";
+	}
+
+	@PostMapping("save")
+	public String save(HttpServletRequest reqeust, ModelMap map, Field field, @RequestParam Long group_id,
+			RedirectAttributes redirectAttrs) {
+		FieldGroup fieldGroup = fieldGroupService.findById(group_id);
+		field.setFieldGroup(fieldGroup);
+		field.setOption(fieldTypes.get(field.getType()).parseOptionString(filterOptionParams(reqeust)));
 		fieldService.save(field);
 		redirectAttrs.addAttribute("group_id", group_id);
 		return "redirect:/model/field/list";
+	}
+
+	private Map<String, String[]> filterOptionParams(HttpServletRequest reqeust) {
+		Map<String, String[]> params = new HashMap<String, String[]>();
+		for (Entry<String, String[]> entry : reqeust.getParameterMap().entrySet()) {
+			if (entry.getKey().startsWith("option.")) {
+				String key = StringUtils.split(entry.getKey(), "option.")[1].trim();
+				if (StringUtils.hasText(key)) {
+					String[] values = entry.getValue();
+					if (values != null) {
+						List<String> vs = new ArrayList<String>();
+						for (String value : values) {
+							if (StringUtils.hasText(value)) {
+								vs.add(value.trim());
+							}
+						}
+						if (vs.size() > 0) {
+							params.put(key, (String[]) vs.toArray(new String[vs.size()]));
+						}
+					}
+				}
+			}
+		}
+		return params;
 	}
 
 	@GetMapping("delete")
