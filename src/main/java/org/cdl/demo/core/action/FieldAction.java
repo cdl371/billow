@@ -70,14 +70,7 @@ public class FieldAction {
 	public String option(ModelMap map, Field field, @RequestParam Long group_id) {
 		FieldGroup fieldGroup = fieldGroupService.findById(group_id);
 		field.setFieldGroup(fieldGroup);
-		Map<String, Object> optionMap = new HashMap<String, Object>();
-		if (!field.isNew()) {
-			String optionString = fieldService.findById(field.getId()).getOption();
-			if (StringUtils.hasText(optionString)) {
-				optionMap = fieldTypes.get(field.getType()).parseOptionMap(optionString);
-			}
-		}
-		map.addAttribute("option", optionMap);
+		map.addAttribute("option", fieldTypes.get(field.getType()).parseOptionMap(field));
 		return "admin/model/field/option";
 	}
 

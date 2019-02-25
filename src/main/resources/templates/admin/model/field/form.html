@@ -12,6 +12,7 @@
 				<form th:action="@{option}" method="POST" role="form">
 					<input type="hidden" name="id" th:value="${field.id}"/>
 					<input type="hidden" name="group_id" th:value="${fieldGroup}?${fieldGroup.id}:${field.fieldGroup.id}" />
+					<input type="hidden" name="option" th:value="${field.option}" />
 					<div class="box-body">
 						<div class="form-group">
 							<label>名称</label>

@@ -26,6 +26,9 @@ public class Field extends Base {
 
 	private String type;
 
+	@Column(columnDefinition = "bit default 0")
+	private boolean required = false;
+
 	private String option;
 
 	@Column(columnDefinition = "int default 0")

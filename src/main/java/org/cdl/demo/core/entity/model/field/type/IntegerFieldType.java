@@ -35,8 +35,10 @@ public class IntegerFieldType implements FieldType<IntegerFieldValue> {
 	@Override
 	public Map<String, Object> parseOption(Map<String, String[]> params) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (params.containsKey("maxlength"))
-			map.put("maxlength", Integer.valueOf(params.get("maxlength")[0]));
+		if (params.containsKey("max"))
+			map.put("max", Integer.valueOf(params.get("max")[0]));
+		if (params.containsKey("min"))
+			map.put("min", Integer.valueOf(params.get("min")[0]));
 		if (params.containsKey("default"))
 			map.put("default", Integer.valueOf(params.get("default")[0]));
 		return map;

@@ -1,6 +1,5 @@
 package org.cdl.demo.core.entity.model.field;
 
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,9 +48,13 @@ public interface FieldType<T extends FieldValue<?>> {
 		try {
 			map = new ObjectMapper().readValue(optionString, new TypeReference<Map<String, Object>>() {
 			});
-		} catch (IOException e) {
+		} catch (Exception e) {
 		}
 		return map;
+	}
+
+	default Map<String, Object> parseOptionMap(Field field) {
+		return parseOptionMap(field.getOption());
 	}
 
 }
