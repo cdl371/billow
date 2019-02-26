@@ -21,8 +21,10 @@ public class StringFieldValue extends FieldValue<String> {
 	private String value;
 
 	@Override
-	public void setStringValue(String value) {
-		setValue(value);
+	public void setStringArrayValue(String[] value) {
+		if (value != null && value.length > 0) {
+			setValue(value[0]);
+		}
 	}
 
 }

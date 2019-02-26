@@ -2,6 +2,8 @@ package org.cdl.demo.core.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.repository.BaseDao;
 import org.springframework.data.domain.Sort;
@@ -9,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface BaseService<T extends Base, DAO extends BaseDao<T>> {
 
-	DAO getDao();
+    EntityManager getEntityManager();
+
+    DAO getDao();
 
 	default List<T> findAll() {
 		return getDao().findAll();

@@ -2,6 +2,9 @@ package org.cdl.demo.core.service.content;
 
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.cdl.demo.core.entity.content.Content;
 import org.cdl.demo.core.entity.model.field.Field;
 import org.cdl.demo.core.entity.model.field.FieldType;
@@ -15,6 +18,10 @@ import lombok.Getter;
 
 @Service("contentService")
 public class ContentServiceImpl implements ContentService {
+
+	@PersistenceContext
+	@Getter
+    private EntityManager entityManager;
 
 	@Autowired
 	@Getter

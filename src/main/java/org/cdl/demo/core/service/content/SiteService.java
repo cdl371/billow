@@ -1,5 +1,6 @@
 package org.cdl.demo.core.service.content;
 
+import java.util.List;
 import java.util.Map;
 
 import org.cdl.demo.core.entity.content.Site;
@@ -22,5 +23,9 @@ public interface SiteService extends ContainerAwareService<Site, SiteDao>, Assoc
 	Site findByPrimaryTrue();
 
 	Site findOneByHost(String host);
+
+	default List<Site> findTest() {
+		return getDao().findTest();
+	}
 
 }

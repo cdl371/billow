@@ -21,8 +21,10 @@ public class BooleanFieldValue extends FieldValue<Boolean> {
 	private Boolean value;
 
 	@Override
-	public void setStringValue(String value) {
-		setValue(Boolean.valueOf(value));
+	public void setStringArrayValue(String[] value) {
+		if (value != null && value.length > 0) {
+			setValue(Boolean.valueOf(value[0]));
+		}
 	}
 
 }

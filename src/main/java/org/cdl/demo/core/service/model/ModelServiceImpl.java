@@ -2,6 +2,9 @@ package org.cdl.demo.core.service.model;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.cdl.demo.core.entity.model.Model;
 import org.cdl.demo.core.repository.content.aware.ItemAwareDao;
 import org.cdl.demo.core.repository.model.ModelDao;
@@ -15,6 +18,10 @@ import lombok.Getter;
 
 @Service("modelService")
 public class ModelServiceImpl implements ModelService {
+
+	@PersistenceContext
+	@Getter
+    private EntityManager entityManager;
 
 	@Autowired
 	@Getter

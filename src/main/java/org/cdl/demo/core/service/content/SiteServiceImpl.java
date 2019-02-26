@@ -2,6 +2,9 @@ package org.cdl.demo.core.service.content;
 
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.cdl.demo.core.entity.content.Site;
 import org.cdl.demo.core.entity.model.Model;
 import org.cdl.demo.core.entity.model.field.FieldType;
@@ -17,6 +20,10 @@ import lombok.Getter;
 
 @Service("siteService")
 public class SiteServiceImpl implements SiteService {
+
+	@PersistenceContext
+	@Getter
+    private EntityManager entityManager;
 
 	@Autowired
 	@Getter

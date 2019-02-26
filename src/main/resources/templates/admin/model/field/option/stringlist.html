@@ -1,0 +1,9 @@
+<div class="form-group">
+	<label>最大长度</label>
+	<input name="option.maxlength" type="text" class="form-control" th:value="${option['maxlength']}">
+</div>
+<div class="checkbox form-group">
+	<label>
+		<input name="option.blankable" type="checkbox" value="true" th:checked="${option['blankable']}"> 允许空字符串
+	</label>
+</div>

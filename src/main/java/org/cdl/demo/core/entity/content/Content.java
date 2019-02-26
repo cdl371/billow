@@ -38,8 +38,37 @@ public class Content extends Base {
 	@JoinColumn(nullable = false, updatable = false)
 	private Model model;
 
-	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKey(name = "code")
 	private Map<String, FieldValue<?>> fieldValues = new HashMap<String, FieldValue<?>>();
 
+//	@Transient
+//	private Map<String, Object> fieldValueMap = null;
+//
+//	@SuppressWarnings("unchecked")
+//	public Map<String, Object> getFieldValueMap() {
+//		if (fieldValueMap == null) {
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			for (FieldValue<?> fieldValue : fieldValues) {
+//				String code = fieldValue.getCode();
+//				if (map.containsKey(code)) {
+//					Object value = map.get(code);
+//					if (value instanceof List) {
+//						((List<Object>) value).add(fieldValue.getValue());
+//					} else {
+//						List<Object> list = new ArrayList<Object>();
+//						list.add(value);
+//						list.add(fieldValue.getValue());
+//						value = list;
+//					}
+//				} else {
+//					map.put(code, fieldValue.getValue());
+//				}
+//			}
+//			return map;
+//		} else {
+//			return fieldValueMap;
+//		}
+//	}
+	
 }

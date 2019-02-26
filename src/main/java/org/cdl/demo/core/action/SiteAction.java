@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.cdl.demo.core.entity.category.SiteCategory;
 import org.cdl.demo.core.entity.content.Site;
@@ -123,6 +124,11 @@ public class SiteAction {
 		modelService.detachAssociation(modelService.findById(id), site);
 		redirectAttrs.addAttribute("site_id", site_id);
 		return "redirect:/site/model/list";
+	}
+
+	@GetMapping("test")
+	public void test(HttpServletResponse response) {
+		System.out.println(siteService.findTest());
 	}
 
 }
