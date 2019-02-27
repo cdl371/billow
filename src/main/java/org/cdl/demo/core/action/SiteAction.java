@@ -128,7 +128,9 @@ public class SiteAction {
 
 	@GetMapping("test")
 	public void test(HttpServletResponse response) {
-		System.out.println(siteService.findTest());
+		Site site = siteService.findById(5L);
+		Map<String, Object> map = site.getContent().getFieldValueMap();
+		System.out.println(map);
 	}
 
 }

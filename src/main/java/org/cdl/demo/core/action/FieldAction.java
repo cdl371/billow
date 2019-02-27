@@ -1,13 +1,12 @@
 package org.cdl.demo.core.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.cdl.demo.core.entity.model.FieldGroup;
 import org.cdl.demo.core.entity.model.field.Field;
 import org.cdl.demo.core.entity.model.field.FieldType;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,22 +83,17 @@ public class FieldAction {
 		return "redirect:/model/field/list";
 	}
 
-	private Map<String, String[]> filterOptionParams(HttpServletRequest reqeust) {
-		Map<String, String[]> params = new HashMap<String, String[]>();
+	private Map<String, String> filterOptionParams(HttpServletRequest reqeust) {
+		Map<String, String> params = new HashMap<String, String>();
 		for (Entry<String, String[]> entry : reqeust.getParameterMap().entrySet()) {
 			if (entry.getKey().startsWith("option.")) {
-				String key = StringUtils.split(entry.getKey(), "option.")[1].trim();
-				if (StringUtils.hasText(key)) {
+				String key = StringUtils.removeStart(entry.getKey(), "option.").trim();
+				if (StringUtils.isNotBlank(key)) {
 					String[] values = entry.getValue();
-					if (values != null) {
-						List<String> vs = new ArrayList<String>();
-						for (String value : values) {
-							if (StringUtils.hasText(value)) {
-								vs.add(value.trim());
-							}
-						}
-						if (vs.size() > 0) {
-							params.put(key, (String[]) vs.toArray(new String[vs.size()]));
+					if (values != null && values.length > 0) {
+						String value = values[0].trim();
+						if (StringUtils.isNotBlank(value)) {
+							params.put(key, value);
 						}
 					}
 				}

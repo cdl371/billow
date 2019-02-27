@@ -33,12 +33,17 @@ public class BooleanFieldType implements FieldType<BooleanFieldValue> {
 	}
 
 	@Override
-	public Map<String, Object> parseOption(Map<String, String[]> params) {
+	public boolean isSingle() {
+		return true;
+	}
+
+	@Override
+	public Map<String, Object> parseOption(Map<String, String> params) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (params.containsKey("maxlength"))
-			map.put("maxlength", Integer.valueOf(params.get("maxlength")[0]));
+			map.put("maxlength", Integer.valueOf(params.get("maxlength")));
 		if (params.containsKey("default"))
-			map.put("default", Boolean.valueOf(params.get("default")[0]));
+			map.put("default", Boolean.valueOf(params.get("default")));
 		return map;
 	}
 

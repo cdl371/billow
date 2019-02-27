@@ -33,12 +33,17 @@ public class StringFieldType implements FieldType<StringFieldValue> {
 	}
 
 	@Override
-	public Map<String, Object> parseOption(Map<String, String[]> params) {
+	public boolean isSingle() {
+		return true;
+	}
+
+	@Override
+	public Map<String, Object> parseOption(Map<String, String> params) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (params.containsKey("maxlength"))
-			map.put("maxlength", Integer.valueOf(params.get("maxlength")[0]));
+			map.put("maxlength", Integer.valueOf(params.get("maxlength")));
 		if (params.containsKey("blankable"))
-			map.put("blankable", Boolean.valueOf(params.get("blankable")[0]));
+			map.put("blankable", Boolean.valueOf(params.get("blankable")));
 		return map;
 	}
 

@@ -28,7 +28,7 @@ public abstract class FieldValue<T> extends Base {
 
 	public abstract void setValue(T value);
 
-	public abstract void setStringArrayValue(String[] value);
+	public abstract void setStringValue(String value);
 
 	@SuppressWarnings("unchecked")
 	public Class<T> getValueType() {
