@@ -16,8 +16,7 @@
 					<input type="hidden" name="code" th:value="${field.code}" />
 					<input type="hidden" name="type" th:value="${field.type}" />
 					<input type="hidden" name="priority" th:value="${field.priority}" />
-					<input type="hidden" name="option"/>
-					<div class="box-body" th:insert="${fieldTypes[field.type].optionTemplate}"></div>
+					<div class="box-body" th:with="options=${field.options}" th:insert="${fieldTypes[field.type].optionTemplate}"></div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">提交</button>
 					</div>

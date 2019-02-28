@@ -1,6 +1,6 @@
 <div th:fragment="groups (model, content, fieldTypes)" th:each="fieldGroup:${model.fieldGroups}" class="tab-pane" th:id="|tab_group_${fieldGroup.id}|">
-	<div th:with="fields=${fieldGroup.fields},values=${content}?${content.fieldValueMap}" class="box-body">
-		<div th:each="field:${fields}" th:with="inputName=|field.${field.code}|,value=(${values} and ${values[field.code]})?${values[field.code].value},option=${fieldTypes[field.type].parseOptionMap(field.option)}">
+	<div th:with="fields=${fieldGroup.fields},values=${content}?${content.parseFieldValueMap(fieldTypes)}" class="box-body">
+		<div th:each="field:${fields}" th:with="inputName=|field.${field.code}|,value=(${values} and ${values[field.code]})?${values[field.code].value},optionMap=${fieldTypes[field.type].parseOptionMap(field)}">
 			<div th:replace="${fieldTypes[field.type].template}"></div>
 		</div>
 	</div>

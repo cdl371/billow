@@ -1,7 +1,7 @@
 package org.cdl.demo.core.entity.model.field.type;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,9 +9,6 @@ import org.cdl.demo.core.entity.model.field.FieldType;
 import org.cdl.demo.core.entity.model.field.value.StringFieldValue;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 @Order(600)
@@ -25,6 +22,11 @@ public class CheckboxStringsFieldType implements FieldType<StringFieldValue> {
 	@Override
 	public String getType() {
 		return "checkboxStrings";
+	}
+
+	@Override
+	public String getColumnName() {
+		return StringFieldValue.COLUMN_NAME;
 	}
 
 	@Override
@@ -43,23 +45,24 @@ public class CheckboxStringsFieldType implements FieldType<StringFieldValue> {
 	}
 
 	@Override
-	public Map<String, Object> parseOption(Map<String, String> params) {
+	public Map<String, Object> parseOption(Map<String, String> options) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			if (params.containsKey("options")) {
-				Map<String, String> options = new ObjectMapper().readValue(params.get("options"),
-						new TypeReference<Map<String, String>>() {
-						});
-				// TODO validate options.....
-				map.put("options", new ObjectMapper().writeValueAsString(options));
+		if (options.containsKey("values") && options.containsKey("labels")) {
+			Map<String, String> valueMap = new LinkedHashMap<String, String>();
+			String[] values = StringUtils.stripAll(StringUtils.split(options.get("values").trim(), ","), null);
+			String[] labels = StringUtils.stripAll(StringUtils.split(options.get("labels").trim(), ","), null);
+			// TODO validate values and labels.....
+			if (values.length == labels.length) {
+				for (int i = 0; i < values.length; i++) {
+					valueMap.put(values[i], labels[i]);
+				}
 			}
-			if (params.containsKey("defaults")) {
-				String[] defaults = StringUtils.stripAll(StringUtils.split(params.get("defaults").trim(), ","), null);
-				// TODO validate defaults.....
-				map.put("defaults", StringUtils.join(defaults, ","));
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("parsing checkboxstrings option failed.");
+			map.put("valueMap", valueMap);
+		}
+		if (options.containsKey("defaults")) {
+			String[] defaults = StringUtils.stripAll(StringUtils.split(options.get("defaults").trim(), ","), null);
+			// TODO validate defaults.....
+			map.put("defaults", defaults);
 		}
 		return map;
 	}

@@ -25,41 +25,6 @@ public interface ContentAwareService<T extends Base & ContentAware, DAO extends 
 
 	ContentService getContentService();
 
-//	default void attachContent(T contentAware, Model model, Map<String, String[]> requestParameterMap,
-//			Map<String, FieldType<?>> fieldTypeMap) {
-//		Content content;
-//		if (contentAware.isNew()) {
-//			content = getContentService().save(new Content(model));
-//		} else {
-//			content = findById(contentAware.getId()).getContent();
-//		}
-//		Map<String, FieldValue<?>> fieldValues = content.getFieldValues();
-//		fieldValues.clear();
-//		for (FieldGroup fieldGroup : content.getModel().getFieldGroups()) {
-//			for (Field field : fieldGroup.getFields()) {
-//				String code = field.getCode();
-//				String[] value = requestParameterMap.get(FIELD_PREFIX + code);
-//				List<String> valueList = new ArrayList<String>();
-//				for (String v : value) {
-//					if (StringUtils.hasText(v)) {
-//						valueList.add(v);
-//					}
-//				}
-//				value = valueList.isEmpty() ? null : valueList.toArray(new String[valueList.size()]);
-//				if (value != null) {
-//					FieldType<?> fieldType = fieldTypeMap.get(field.getType());
-//					FieldValue<?> fieldValue = fieldType.createFieldValues();
-//					fieldValue.setContent(content);
-//					fieldValue.setCode(code);
-//					fieldValue.setStringArrayValue(value);
-//					fieldValues.put(code, fieldValue);
-//				}
-//			}
-//		}
-//		content.setFieldValues(fieldValues);
-//		contentAware.setContent(content);
-//	}
-
 	default void attachContent(T contentAware, Model model, Map<String, String[]> requestParameterMap,
 			Map<String, FieldType<?>> fieldTypeMap) {
 		Content content;

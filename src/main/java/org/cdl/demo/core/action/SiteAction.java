@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/site")
+@RequestMapping("/site")
 public class SiteAction {
 
 	@Autowired
@@ -128,9 +128,9 @@ public class SiteAction {
 
 	@GetMapping("test")
 	public void test(HttpServletResponse response) {
-		Site site = siteService.findById(5L);
-		Map<String, Object> map = site.getContent().getFieldValueMap();
-		System.out.println(map);
+//		Site site = siteService.findById(5L);
+//		Map<String, FieldValue<?>> map = site.getContent().getFieldValueMap();
+//		System.out.println(map);
 	}
 
 }

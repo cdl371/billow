@@ -23,6 +23,11 @@ public class IntegerFieldType implements FieldType<IntegerFieldValue> {
 	}
 
 	@Override
+	public String getColumnName() {
+		return IntegerFieldValue.COLUMN_NAME;
+	}
+
+	@Override
 	public String getTemplate() {
 		return "/admin/content/field/integer";
 	}
@@ -38,14 +43,23 @@ public class IntegerFieldType implements FieldType<IntegerFieldValue> {
 	}
 
 	@Override
-	public Map<String, Object> parseOption(Map<String, String> params) {
+	public Map<String, Object> parseOption(Map<String, String> options) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (params.containsKey("max"))
-			map.put("max", Integer.valueOf(params.get("max")));
-		if (params.containsKey("min"))
-			map.put("min", Integer.valueOf(params.get("min")));
-		if (params.containsKey("default"))
-			map.put("default", Integer.valueOf(params.get("default")));
+		if (options.containsKey("max")) {
+			Integer max = Integer.valueOf(options.get("max"));
+			// TODO validate max.....
+			map.put("max", max);
+		}
+		if (options.containsKey("min")) {
+			Integer min = Integer.valueOf(options.get("min"));
+			// TODO validate min.....
+			map.put("max", min);
+		}
+		if (options.containsKey("default")) {
+			Integer _default = Integer.valueOf(options.get("default"));
+			// TODO validate default.....
+			map.put("default", _default);
+		}
 		return map;
 	}
 

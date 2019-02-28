@@ -17,7 +17,9 @@ public class StringFieldValue extends FieldValue<String> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "string")
+	public static final String COLUMN_NAME = "string";
+
+	@Column(name = COLUMN_NAME)
 	private String value;
 
 	@Override

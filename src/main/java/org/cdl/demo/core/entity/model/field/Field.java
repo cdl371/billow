@@ -1,5 +1,6 @@
 package org.cdl.demo.core.entity.model.field;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;
@@ -35,14 +36,11 @@ public class Field extends Base {
 	@Column(columnDefinition = "bit default 0")
 	private boolean required = false;
 
-	//需要删除！！！！！！！！！！！！！！！！！！
-	private String option;
-
 	@ElementCollection
 	@CollectionTable(name = "field_option", joinColumns = @JoinColumn(name = "field_id"))
-	@MapKeyColumn(name = "code")
+	@MapKeyColumn(name = "code", length = 32)
 	@Column(name = "option")
-	private Map<String, String> options;
+	private Map<String, String> options = new HashMap<String, String>();
 
 	@Column(columnDefinition = "int default 0")
 	private Integer priority = 0;

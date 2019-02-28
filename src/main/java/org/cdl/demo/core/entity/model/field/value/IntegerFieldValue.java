@@ -17,7 +17,9 @@ public class IntegerFieldValue extends FieldValue<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "integer")
+	public static final String COLUMN_NAME = "integer";
+
+	@Column(name = COLUMN_NAME)
 	private Integer value;
 
 	@Override

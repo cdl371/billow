@@ -1,0 +1,9 @@
+<div class="form-group">
+	<label th:text="${field.name}"></label>
+	<div class="checkbox" th:each="valueEntry:${optionMap['valueMap']}">
+		<label>
+			<input th:name="${inputName}" type="checkbox" th:value="${valueEntry.key}" th:checked="${value}?${#lists.contains(value,valueEntry.key)}:(${optionMap['defaults']}?${#arrays.contains(optionMap['defaults'],valueEntry.key)})">
+			<span th:text="${valueEntry.value}"></span>
+		</label>
+	</div>
+</div>

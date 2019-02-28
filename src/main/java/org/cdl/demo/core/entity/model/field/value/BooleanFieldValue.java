@@ -16,8 +16,10 @@ import lombok.Setter;
 public class BooleanFieldValue extends FieldValue<Boolean> {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String COLUMN_NAME = "boolean";
 
-	@Column(name = "boolean")
+	@Column(name = COLUMN_NAME)
 	private Boolean value;
 
 	@Override

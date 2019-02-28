@@ -20,9 +20,11 @@ public class TextFieldValue extends FieldValue<String> {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String COLUMN_NAME = "text";
+
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "text")
+	@Column(name = COLUMN_NAME)
 	private String value;
 
 	@Override

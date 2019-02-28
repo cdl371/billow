@@ -23,6 +23,11 @@ public class StringsFieldType implements FieldType<StringFieldValue> {
 	}
 
 	@Override
+	public String getColumnName() {
+		return StringFieldValue.COLUMN_NAME;
+	}
+
+	@Override
 	public String getTemplate() {
 		return "/admin/content/field/strings";
 	}

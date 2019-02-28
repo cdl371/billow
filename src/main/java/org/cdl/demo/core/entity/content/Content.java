@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 
 import org.cdl.demo.core.entity.Base;
 import org.cdl.demo.core.entity.model.Model;
+import org.cdl.demo.core.entity.model.field.Field;
+import org.cdl.demo.core.entity.model.field.FieldType;
 import org.cdl.demo.core.entity.model.field.FieldValue;
 
 import lombok.Getter;
@@ -25,8 +27,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -35,64 +35,71 @@ public class Content extends Base {
 
 	private static final long serialVersionUID = 1L;
 
+	@Getter
+	@Setter
 	@NonNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, updatable = false)
 	private Model model;
 
+	@Getter
+	@Setter
 	@OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@MapKey(name = "code")
 	private List<FieldValue<?>> fieldValues = new ArrayList<FieldValue<?>>();
 
 	@Transient
-	private Map<String, Object> fieldValueMap = null;
+	private Map<String, FieldValue<?>> fieldValueMap = null;
 
-//	@SuppressWarnings("unchecked")
-//	public Map<String, Object> getFieldValueMap() {
-//		if (fieldValueMap == null) {
-//			fieldValueMap = new HashMap<String, Object>();
-//			for (FieldValue<?> fieldValue : fieldValues) {
-//				String code = fieldValue.getCode();
-//				if (fieldValueMap.containsKey(code)) {
-//					Object value = fieldValueMap.get(code);
-//					if (value instanceof List) {
-//						((List<Object>) value).add(fieldValue.getValue());
-//					} else {
-//						List<Object> list = new ArrayList<Object>();
-//						list.add(value);
-//						list.add(fieldValue.getValue());
-//						value = list;
-//					}
-//				} else {
-//					fieldValueMap.put(code, fieldValue.getValue());
-//				}
-//			}
-//		}
-//		return fieldValueMap;
-//	}
-
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> getFieldValueMap() {
+	public Map<String, FieldValue<?>> parseFieldValueMap(Map<String, FieldType<?>> fieldTypes) {
 		if (fieldValueMap == null) {
-			fieldValueMap = new HashMap<String, Object>();
+			fieldValueMap = new HashMap<String, FieldValue<?>>();
+			Map<String, Field> fieldMap = model.parseFieldMap();
 			for (FieldValue<?> fieldValue : fieldValues) {
 				String code = fieldValue.getCode();
-				if (fieldValueMap.containsKey(code)) {
-					Object value = fieldValueMap.get(code);
-					if (value instanceof List) {
-						((List<Object>) value).add(fieldValue);
-					} else {
-						List<Object> list = new ArrayList<Object>();
-						list.add(value);
-						list.add(fieldValue);
-						value = list;
-					}
-				} else {
+				Field field = fieldMap.get(code);
+				FieldType<?> fieldType = fieldTypes.get(field.getType());
+				if (fieldType.isSingle()) {
 					fieldValueMap.put(code, fieldValue);
+				} else {
+					FieldValueList list;
+					if (fieldValueMap.containsKey(code)) {
+						list = (FieldValueList) fieldValueMap.get(code);
+					} else {
+						list = new FieldValueList();
+						list.setCode(code);
+						list.setContent(this);
+					}
+					list.add(fieldValue);
+					fieldValueMap.put(code, list);
 				}
 			}
 		}
 		return fieldValueMap;
+	}
+
+	private static class FieldValueList extends FieldValue<List<Object>> {
+
+		private static final long serialVersionUID = 1L;
+
+		private List<Object> list = new ArrayList<Object>();
+
+		private void add(FieldValue<?> fieldValue) {
+			list.add(fieldValue.getValue());
+		}
+
+		@Override
+		public List<Object> getValue() {
+			return list;
+		}
+
+		@Override
+		public void setValue(List<Object> value) {
+		}
+
+		@Override
+		public void setStringValue(String value) {
+		}
+
 	}
 
 }

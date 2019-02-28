@@ -1,6 +1,6 @@
 package org.cdl.demo.core.action;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/model/field")
+@RequestMapping("/model/field")
 public class FieldAction {
 
 	@Autowired
@@ -68,7 +68,9 @@ public class FieldAction {
 	public String option(ModelMap map, Field field, @RequestParam Long group_id) {
 		FieldGroup fieldGroup = fieldGroupService.findById(group_id);
 		field.setFieldGroup(fieldGroup);
-		map.addAttribute("option", fieldTypes.get(field.getType()).parseOptionMap(field));
+		if (!field.isNew()) {
+			field.setOptions(fieldService.findById(field.getId()).getOptions());
+		}
 		return "admin/model/field/option";
 	}
 
@@ -77,29 +79,10 @@ public class FieldAction {
 			RedirectAttributes redirectAttrs) {
 		FieldGroup fieldGroup = fieldGroupService.findById(group_id);
 		field.setFieldGroup(fieldGroup);
-		field.setOption(fieldTypes.get(field.getType()).parseOptionString(filterOptionParams(reqeust)));
+		filterBlankOption(field);
 		fieldService.save(field);
 		redirectAttrs.addAttribute("group_id", group_id);
 		return "redirect:/model/field/list";
-	}
-
-	private Map<String, String> filterOptionParams(HttpServletRequest reqeust) {
-		Map<String, String> params = new HashMap<String, String>();
-		for (Entry<String, String[]> entry : reqeust.getParameterMap().entrySet()) {
-			if (entry.getKey().startsWith("option.")) {
-				String key = StringUtils.removeStart(entry.getKey(), "option.").trim();
-				if (StringUtils.isNotBlank(key)) {
-					String[] values = entry.getValue();
-					if (values != null && values.length > 0) {
-						String value = values[0].trim();
-						if (StringUtils.isNotBlank(value)) {
-							params.put(key, value);
-						}
-					}
-				}
-			}
-		}
-		return params;
 	}
 
 	@GetMapping("delete")
@@ -108,6 +91,16 @@ public class FieldAction {
 		fieldService.delete(id);
 		redirectAttrs.addAttribute("group_id", field.getFieldGroup().getId());
 		return "redirect:/model/field/list";
+	}
+
+	private void filterBlankOption(Field field) {
+		Map<String, String> options = field.getOptions();
+		for (Iterator<Map.Entry<String, String>> iterator = options.entrySet().iterator(); iterator.hasNext();) {
+			Entry<String, String> entry = iterator.next();
+			if (StringUtils.isBlank(entry.getValue())) {
+				iterator.remove();
+			}
+		}
 	}
 
 }

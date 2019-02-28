@@ -1,4 +1,4 @@
 <div class="form-group">
 	<label th:text="${field.name}"></label>
-	<input type="text" class="form-control" th:name="${inputName}" th:value="${value}?:(${option['default']}?:_)">
+	<input type="text" class="form-control" th:name="${inputName}" th:value="${value}?:(${optionMap['default']}?:_)">
 </div>
